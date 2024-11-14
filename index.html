@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="styles/normalize.css">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Agenda</title>
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li>Ordem</li>
+                <li>Nome</li>
+                <li>Email</li>
+            </ul>
+        </nav>
+        <div class="search-container">
+            <img src="styles/imagens/Search-Icon.svg" alt="Ícone de lupa" class="search-icon">
+            <input type="text" class="search-bar" placeholder="Pesquisar" id="searchInput">
+        </div>
+        <button id="addUserBtn">+ Adicionar</button>
+    </header>
+
+    <main>
+        <hr class="divider">
+        <section class="content-user">
+        </section>
+    </main>
+
+    <div class="modal" id="userModal">
+        <div class="modal-content">
+            <h2 id="modalTitle">Adicionar Usuário</h2>
+            <label for="userName">Nome:</label>
+            <input type="text" id="userName">
+            <label for="userEmail">Email:</label>
+            <input type="email" id="userEmail">
+            <button id="saveUserBtn">Salvar</button>
+            <button id="cancelBtn">Cancelar</button>
+        </div>
+    </div>
+    <div class="notification" id="notification"></div>
+
+    <script src="script.js"></script>
+</body>
+</html>
