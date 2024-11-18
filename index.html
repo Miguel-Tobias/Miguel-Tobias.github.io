@@ -9,23 +9,27 @@
 </head>
 <body>
     <header>
-        <nav>
-            <ul>
-                <li>Ordem</li>
-                <li>Nome</li>
-                <li>Email</li>
-            </ul>
-        </nav>
         <div class="search-container">
             <img src="styles/imagens/Search-Icon.svg" alt="Ícone de lupa" class="search-icon">
             <input type="text" class="search-bar" placeholder="Pesquisar" id="searchInput">
         </div>
-        <button id="addUserBtn">+ Adicionar</button>
+        <button id="addUserBtn">+ Adicionar </button>
     </header>
 
     <main>
         <hr class="divider">
+        <section class="titleUser">
+            <nav>
+                <ul>
+                    <li>Ordem</li>
+                    <li>Nome</li>
+                    <li class="contact">Email</li>
+                </ul>
+            </nav>
+        </section>
+
         <section class="content-user">
+            <!-- Usuários vão aparecer aqui -->
         </section>
     </main>
 
@@ -40,6 +44,7 @@
             <button id="cancelBtn">Cancelar</button>
         </div>
     </div>
+
     <div class="notification" id="notification"></div>
 
     <script src="script.js"></script>
