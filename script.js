@@ -1,4 +1,3 @@
-
 const users = [];
 
 // Função para salvar os dados no LocalStorage
@@ -19,26 +18,45 @@ function loadFromLocalStorage() {
 let editMode = false;
 let currentUserId = null;
 
-function addUser(name, email) {
+function addUser(name, ddd, phone) {
+    const contact = `(${ddd}) 9${phone}`;
     if (editMode) {
         const user = users.find(u => u.id === currentUserId);
         if (user) {
             user.name = name;
-            user.email = email;
+            user.contact = contact;
             showNotification('Usuário editado com sucesso!');
         }
     } else {
         const newUser = {
             id: users.length + 1,
             name: name,
-            email: email
+            contact: contact,
         };
         users.push(newUser);
         showNotification('Usuário adicionado com sucesso!');
     }
-    
+
     saveToLocalStorage();
     displayUsers();
+}
+
+// Função para validar os campos
+function validateFields(name, ddd, phone) {
+    const nameMaxLength = 50;
+    const phoneMaxLength = 8;
+
+    if (name.length > nameMaxLength) {
+        alert(`O nome não pode ter mais de ${nameMaxLength} caracteres.`);
+        return false;
+    }
+
+    if (!/^\d+$/.test(phone) || phone.length !== phoneMaxLength) {
+        alert('O número de telefone deve conter exatamente 8 dígitos numéricos.');
+        return false;
+    }
+
+    return true;
 }
 
 // Função para abrir o modal de adicionar/editar
@@ -46,24 +64,28 @@ function openModal(isEdit = false, userId = null) {
     const modal = document.getElementById('userModal');
     const modalTitle = document.getElementById('modalTitle');
     const nameInput = document.getElementById('userName');
-    const emailInput = document.getElementById('userEmail');
-    
+    const dddSelect = document.getElementById('dddSelect');
+    const phoneInput = document.getElementById('phoneNumber');
+
     if (isEdit) {
         editMode = true;
         currentUserId = userId;
         const user = users.find(u => u.id === userId);
         if (user) {
             nameInput.value = user.name;
-            emailInput.value = user.email;
+            const [ddd, phone] = user.contact.match(/\((\d+)\) 9(\d+)/).slice(1);
+            dddSelect.value = ddd;
+            phoneInput.value = phone;
         }
         modalTitle.innerText = 'Editar Usuário';
     } else {
         editMode = false;
         modalTitle.innerText = 'Adicionar Usuário';
         nameInput.value = '';
-        emailInput.value = '';
+        dddSelect.value = '91';
+        phoneInput.value = '';
     }
-    
+
     modal.style.display = 'flex';
 }
 
@@ -74,11 +96,17 @@ document.getElementById('cancelBtn').addEventListener('click', () => {
 
 // Salvar o usuário ao clicar em "Salvar"
 document.getElementById('saveUserBtn').addEventListener('click', () => {
-    const name = document.getElementById('userName').value;
-    const email = document.getElementById('userEmail').value;
-    if (name && email) {
-        addUser(name, email);
-        document.getElementById('userModal').style.display = 'none';
+    const name = document.getElementById('userName').value.trim();
+    const ddd = document.getElementById('dddSelect').value;
+    const phone = document.getElementById('phoneNumber').value.trim();
+
+    if (name && ddd && phone) {
+        if (validateFields(name, ddd, phone)) {
+            addUser(name, ddd, phone);
+            document.getElementById('userModal').style.display = 'none';
+        }
+    } else {
+        alert('Por favor, preencha todos os campos.');
     }
 });
 
@@ -109,7 +137,7 @@ function displayUsers() {
         userDiv.innerHTML = `
             <div class="number-order">${index + 1}</div>
             <div class="name-user">${user.name}</div>
-            <div class="email-user">${user.email}</div>
+            <div class="email-user">${user.contact}</div>
             <button onclick="editUser(${user.id})">Editar</button>
             <button onclick="deleteUser(${user.id})">Excluir</button>
         `;
@@ -122,50 +150,10 @@ function showNotification(message) {
     const notification = document.getElementById('notification');
     notification.innerText = message;
     notification.style.display = 'block';
-    
+
     setTimeout(() => {
         notification.style.display = 'none';
     }, 3000);
-}
-
-// Função debounce para otimizar a busca
-function debounce(func, delay) {
-    let debounceTimer;
-    return function() {
-        const context = this;
-        const args = arguments;
-        clearTimeout(debounceTimer);
-        debounceTimer = setTimeout(() => func.apply(context, args), delay);
-    };
-}
-
-// Filtrar usuários durante a pesquisa
-document.getElementById('searchInput').addEventListener('input', debounce((e) => {
-    const searchValue = e.target.value.toLowerCase();
-    const filteredUsers = users.filter(user => 
-        user.name.toLowerCase().includes(searchValue) || 
-        user.email.toLowerCase().includes(searchValue)
-    );
-    displayFilteredUsers(filteredUsers);
-}, 300));
-
-// Exibir os usuários filtrados
-function displayFilteredUsers(filteredUsers) {
-    const contentUser = document.querySelector('.content-user');
-    contentUser.innerHTML = '';
-
-    filteredUsers.forEach((user, index) => {
-        const userDiv = document.createElement('div');
-        userDiv.classList.add('user');
-        userDiv.innerHTML = `
-            <div class="number-order">${index + 1}</div>
-            <div class="name-user">${user.name}</div>
-            <div class="email-user">${user.email}</div>
-            <button onclick="editUser(${user.id})">Editar</button>
-            <button onclick="deleteUser(${user.id})">Excluir</button>
-        `;
-        contentUser.appendChild(userDiv);
-    });
 }
 
 // Abrir o modal para adicionar um usuário
