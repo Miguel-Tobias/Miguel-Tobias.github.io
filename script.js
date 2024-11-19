@@ -129,7 +129,7 @@ function deleteUser(userId) {
 // Função para exibir os usuários na tela
 function displayUsers() {
     const contentUser = document.querySelector('.content-user');
-    contentUser.innerHTML = '';
+    contentUser.innerHTML = ''; // Limpa a lista de usuários
 
     users.sort((a, b) => a.name.localeCompare(b.name)).forEach((user, index) => {
         const userDiv = document.createElement('div');
@@ -165,3 +165,38 @@ document.getElementById('addUserBtn').addEventListener('click', () => {
 window.onload = () => {
     loadFromLocalStorage();
 };
+
+// Função para pesquisar os usuários
+document.getElementById('searchInput').addEventListener('input', (event) => {
+    const searchTerm = event.target.value.toLowerCase(); // Captura o valor da pesquisa e converte para minúsculo
+    filterUsers(searchTerm); // Chama a função de filtragem
+});
+
+// Função para filtrar e exibir os usuários com base no termo de pesquisa
+function filterUsers(searchTerm) {
+    const filteredUsers = users.filter(user => 
+        user.name.toLowerCase().includes(searchTerm) || 
+        user.contact.toLowerCase().includes(searchTerm)
+    );
+    
+    displayFilteredUsers(filteredUsers); // Exibe os usuários filtrados
+}
+
+// Função para exibir os usuários filtrados
+function displayFilteredUsers(filteredUsers) {
+    const contentUser = document.querySelector('.content-user');
+    contentUser.innerHTML = ''; // Limpa os usuários exibidos
+
+    filteredUsers.sort((a, b) => a.name.localeCompare(b.name)).forEach((user, index) => {
+        const userDiv = document.createElement('div');
+        userDiv.classList.add('user');
+        userDiv.innerHTML = `
+            <div class="number-order">${index + 1}</div>
+            <div class="name-user">${user.name}</div>
+            <div class="email-user">${user.contact}</div>
+            <button onclick="editUser(${user.id})">Editar</button>
+            <button onclick="deleteUser(${user.id})">Excluir</button>
+        `;
+        contentUser.appendChild(userDiv);
+    });
+}
