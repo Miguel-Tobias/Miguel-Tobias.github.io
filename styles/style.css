@@ -19,7 +19,7 @@ header {
     background-color: #333;
     color: white;
     font-size: 2vw;
-    position: relative; /* Evitar que o modal se sobreponha ao layout do header */
+    position: relative; 
 }
 
 .search-container {
@@ -71,6 +71,7 @@ main {
     width: 100%;
     margin: 0 auto;
     font-size: 2vw;
+    color: #ffffff;
 }
 
 main .divider {
@@ -188,10 +189,11 @@ main .divider {
     background-color: rgba(0, 0, 0, 0.5);
     justify-content: center;
     align-items: center;
+    color: white;
 }
 
 .modal-content {
-    background-color: white;
+    background-color: rgb(46, 46, 46);
     padding: 20px;
     border-radius: 10px;
     text-align: center;
@@ -211,6 +213,24 @@ main .divider {
     margin: 10px 0;
 }
 
+.modal-content button{
+    
+    border: none;
+    border-radius: 6px;
+    width: 8vw;
+    height: 2.5vw;
+    margin-left: 5px;
+
+    
+}
+& button:nth-of-type(1){
+    background-color: #32CD32;
+    color: white;
+}
+& button:nth-of-type(2){
+    background-color: #B22222;
+    color: white;
+}
 /* Notificação */
 .notification {
     position: absolute;
