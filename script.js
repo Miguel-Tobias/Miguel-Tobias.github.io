@@ -9,8 +9,9 @@ function saveToLocalStorage() {
 function loadFromLocalStorage() {
     const storedUsers = localStorage.getItem('users');
     if (storedUsers) {
-        users.push(...JSON.parse(storedUsers));
-        displayUsers();
+        users.length = 0; // Limpa o array de usuários atual
+        users.push(...JSON.parse(storedUsers)); // Adiciona os usuários do localStorage
+        displayUsers(); // Exibe os usuários na tela
     }
 }
 
@@ -200,3 +201,54 @@ function displayFilteredUsers(filteredUsers) {
         contentUser.appendChild(userDiv);
     });
 }
+
+// Função para salvar os usuários em um arquivo .txt
+function saveUsersToFile() {
+    const fileContent = users.map(user => `Nome: ${user.name}, Telefone: ${user.contact}`).join('\n');
+    const blob = new Blob([fileContent], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement('a');
+    link.href = url;
+    link.download = 'contatos.txt'; // Nome do arquivo
+    link.click();
+    URL.revokeObjectURL(url);
+}
+
+// Adicionar um botão para baixar o arquivo
+document.getElementById('downloadUsersBtn').addEventListener('click', saveUsersToFile);
+
+// Função para ler o arquivo txt e adicionar os usuários
+function readUsersFromFile(event) {
+    const file = event.target.files[0];
+    if (file && file.type === 'text/plain') {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+            const fileContent = e.target.result;
+            const usersFromFile = fileContent.split('\n').map(line => {
+                const [name, contact] = line.split(', ').map(item => item.split(': ')[1]);
+                const [ddd, phone] = contact.match(/\((\d+)\) 9(\d+)/).slice(1);
+                return {
+                    id: users.length + 1,
+                    name: name,
+                    contact: `(${ddd}) 9${phone}`,
+                };
+            });
+            users.length = 0;
+            users.push(...usersFromFile);
+            saveToLocalStorage();
+            displayUsers();
+            showNotification('Contatos carregados com sucesso!');
+        };
+        reader.readAsText(file);
+    } else {
+        alert('Por favor, selecione um arquivo .txt válido.');
+    }
+}
+
+// Adicionar evento de clique ao botão para abrir o seletor de arquivo
+document.getElementById('uploadFileBtn').addEventListener('click', () => {
+    document.getElementById('fileInput').click(); // Simula o clique no input de arquivo
+});
+
+// Adicionar evento de mudança no input de arquivo para processar o arquivo
+document.getElementById('fileInput').addEventListener('change', readUsersFromFile);
