@@ -22,11 +22,11 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            height: 100vh;
+            height: 100%;
             background: linear-gradient(135deg, var(--cor-principal), var(--cor-secundaria));
             color: var(--cor-fonte);
             text-align: center;
-            overflow: hidden;
+            overflow-y: scroll; /* Permite rolagem vertical */
         }
 
         h1 {
@@ -91,6 +91,7 @@
             position: relative;
             width: 100%;
             max-width: 80vw;
+            height: 400px; /* Aumenta a altura do carrossel */
             overflow: hidden;
         }
 
@@ -103,7 +104,7 @@
         .carousel-images img {
             width: 100%; /* As imagens ocupam 100% da largura disponível */
             height: 100%; /* Ajusta a altura para ocupar todo o espaço do carrossel */
-            object-fit: contain; /* Ajusta as imagens para se adaptarem sem cortar */
+            object-fit: cover; /* Ajusta as imagens para cobrir toda a área sem cortar */
             border-radius: 10px;
         }
 
@@ -156,6 +157,7 @@
 
             .carousel {
                 max-width: 100vw; /* Ocupa toda a largura disponível */
+                height: 300px; /* Reduz um pouco a altura no celular */
             }
 
             .carousel-images {
@@ -165,7 +167,7 @@
             .carousel-images img {
                 width: 100%; /* As imagens ocupam 100% da largura disponível */
                 height: 100%; /* Ajusta a altura para ocupar todo o espaço do carrossel */
-                object-fit: contain; /* Ajusta as imagens para se adaptarem sem cortar */
+                object-fit: cover; /* Ajusta as imagens para cobrir toda a área sem cortar */
             }
         }
 
