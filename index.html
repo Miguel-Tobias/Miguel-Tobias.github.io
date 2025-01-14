@@ -102,8 +102,8 @@
 
         .carousel-images img {
             width: 100%; /* As imagens ocupam 100% da largura disponível */
-            height: auto;
-            object-fit: cover;
+            height: 100%; /* Ajusta a altura para ocupar todo o espaço do carrossel */
+            object-fit: contain; /* Ajusta as imagens para se adaptarem sem cortar */
             border-radius: 10px;
         }
 
@@ -164,6 +164,8 @@
 
             .carousel-images img {
                 width: 100%; /* As imagens ocupam 100% da largura disponível */
+                height: 100%; /* Ajusta a altura para ocupar todo o espaço do carrossel */
+                object-fit: contain; /* Ajusta as imagens para se adaptarem sem cortar */
             }
         }
 
@@ -200,7 +202,7 @@
     </div>
 
     <!-- Texto abaixo do carrossel -->
-    <div class="carousel-text">
+    <div id="carouselText" class="hidden carousel-text">
         <p>Essas imagens são um presente para você! 🎁 Espero que você tenha um dia maravilhoso, repleto de momentos inesquecíveis! 🌟</p>
     </div>
 
@@ -214,6 +216,7 @@
 
         function mostrarCarrossel() {
             document.getElementById('carousel').classList.remove('hidden');
+            document.getElementById('carouselText').classList.remove('hidden'); // Exibe o texto abaixo do carrossel
         }
 
         function mudarImagem(direction) {
