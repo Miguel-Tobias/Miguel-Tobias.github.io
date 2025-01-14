@@ -89,18 +89,18 @@
             align-items: center;
             margin-top: 30px;
             position: relative;
-            max-width: 80vw;
+            width: 80vw;
             overflow: hidden;
         }
 
         .carousel-images {
             display: flex;
             transition: transform 0.5s ease;
-            border-radius: 10px;
+            width: 500%; /* 5 imagens no carrossel */
         }
 
         .carousel-images img {
-            width: 100%;
+            width: 20%; /* Cada imagem ocupa 20% da largura */
             height: auto;
             object-fit: cover;
             border-radius: 10px;
@@ -174,6 +174,8 @@
             <img src="imagem1.jpg" alt="Imagem 1">
             <img src="imagem2.jpg" alt="Imagem 2">
             <img src="imagem3.jpg" alt="Imagem 3">
+            <img src="imagem4.jpg" alt="Imagem 4">
+            <img src="imagem5.jpg" alt="Imagem 5">
         </div>
         <div class="carousel-buttons">
             <button onclick="mudarImagem(-1)">&#10094;</button>
@@ -197,11 +199,11 @@
             const images = document.querySelectorAll('#carouselImages img');
             currentImageIndex += direction;
             if (currentImageIndex < 0) {
-                currentImageIndex = images.length - 1;
+                currentImageIndex = images.length - 1; // Volta para a última imagem
             } else if (currentImageIndex >= images.length) {
-                currentImageIndex = 0;
+                currentImageIndex = 0; // Volta para a primeira imagem
             }
-            document.getElementById('carouselImages').style.transform = `translateX(-${currentImageIndex * 100}%)`;
+            document.getElementById('carouselImages').style.transform = `translateX(-${currentImageIndex * 20}%)`;
         }
     </script>
 </body>
